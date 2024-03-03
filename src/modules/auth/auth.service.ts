@@ -2,10 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthenticateDto } from './dto/authenticate.dto';
 import { UserRepository } from 'src/shared/database/repositories/user.repositories';
 import { compare } from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersRepo: UserRepository) {}
+  constructor(
+    private readonly usersRepo: UserRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async authenticate(authenticateDto: AuthenticateDto) {
     const { email, password } = authenticateDto;
@@ -24,6 +28,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return { isPasswordValid };
+    const accessToken = await this.jwtService.signAsync({ sub: user.id });
+
+    return { accessToken };
   }
 }

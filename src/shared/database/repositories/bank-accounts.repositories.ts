@@ -7,11 +7,11 @@ import { PrismaService } from '../prisma.service';
 export class BankAccountsRepository {
   constructor(private prismaService: PrismaService) {}
 
-  // create(createDto: Prisma.UserCreateArgs) {
-  //   return this.prismaService.user.create(createDto);
-  // }
-
   create(createDto: Prisma.BankAccountCreateArgs) {
     return this.prismaService.bankAccount.create(createDto);
+  }
+
+  findMany(findManyDto: Prisma.BankAccountFindManyArgs) {
+    return this.prismaService.bankAccount.findMany(findManyDto);
   }
 }

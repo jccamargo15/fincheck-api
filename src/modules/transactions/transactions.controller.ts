@@ -37,7 +37,11 @@ export class TransactionsController {
     @Query('year', ParseIntPipe) year: number,
     @Query('bankAccountId', OptionalParseUUIDPipe) bankAccountId?: string,
   ) {
-    return this.transactionsService.findAllByUserId(userId, { month, year });
+    return this.transactionsService.findAllByUserId(userId, {
+      month,
+      year,
+      bankAccountId,
+    });
   }
 
   @Put(':transactionId')
